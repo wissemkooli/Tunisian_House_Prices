@@ -12,7 +12,7 @@ import numpy as np
 def load_data():
     return pd.read_csv('data/cleaned_data.csv')
 df = load_data()
-st.title("Tunisian House Prices Explorer")
+st.title("Exploring Tunisia House Prices")
 st.caption("Created by Wissem Kooli – Industrial engineering student")
 st.markdown("<br>", unsafe_allow_html=True)
 st.markdown("<br>", unsafe_allow_html=True)
@@ -346,3 +346,57 @@ fig3.update_layout(
 )
 st.plotly_chart(fig3, use_container_width=True,key='3')
 
+st.header("Price Distribution by Number of Rooms")
+
+room_price_data = df[['num_rooms', 'price']].dropna()
+room_price_data['num_rooms'] = room_price_data['num_rooms'].astype(int)
+
+fig_room_box = px.box(
+    room_price_data,
+    x='num_rooms',
+    y='price',
+    labels={
+        'num_rooms': 'Number of Rooms',
+        'price': 'Price (TND)'
+    },
+    title='Price Distribution for Each Number of Rooms',
+    color='num_rooms',
+    color_discrete_sequence=px.colors.qualitative.Set2
+)
+
+fig_room_box.update_layout(
+    yaxis_tickformat=',',
+    xaxis_title='Number of Rooms',
+    yaxis_title='Price (TND)',
+    showlegend=False
+)
+st.plotly_chart(fig_room_box, use_container_width=True, key='rooms_box')
+
+st.header("Average Price by Number of Rooms")
+
+avg_price_by_rooms = (
+    room_price_data.groupby('num_rooms')['price']
+    .mean()
+    .reset_index()
+    .sort_values('num_rooms')
+)
+avg_price_by_rooms = avg_price_by_rooms[avg_price_by_rooms['num_rooms'] <= 10]
+fig_room_line = px.line(
+    avg_price_by_rooms,
+    x='num_rooms',
+    y='price',
+    markers=True,
+    labels={
+        'num_rooms': 'Number of Rooms',
+        'price': 'Average Price (TND)'
+    },
+    title='Average Price per Number of Rooms',
+    color_discrete_sequence=['#FF6B6B']
+)
+
+fig_room_line.update_layout(
+    yaxis_tickformat=',',
+    xaxis_title='Number of Rooms',
+    yaxis_title='Average Price (TND)'
+)
+st.plotly_chart(fig_room_line, use_container_width=True, key='rooms_line')
