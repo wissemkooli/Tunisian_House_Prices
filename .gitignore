@@ -1,0 +1,33 @@
+# Virtual environments
+venv/
+.env/
+.venv/
+
+# Python cache and artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Jupyter notebook checkpoints
+*.ipynb_checkpoints
+
+# Data files (CSV, Excel, outputs)
+*.csv
+*.xlsx
+results/
+output/
+data/
+
+# Streamlit and Scrapy cache/settings
+.streamlit/
+*.log
+scrapy.cfg
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Misc
+*.log
+*.sqlite
