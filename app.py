@@ -11,7 +11,6 @@ import numpy as np
 @st.cache_data
 def load_data():
     return pd.read_csv('data/cleaned_data.csv')
-s
 df = load_data()
 st.title("Tunisian House Prices Explorer")
 st.caption("Created by Wissem Kooli – Industrial engineering student")
