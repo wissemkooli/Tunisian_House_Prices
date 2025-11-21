@@ -11,7 +11,7 @@ import numpy as np
 @st.cache_data
 def load_data():
     return pd.read_csv('data/cleaned_data.csv')
-
+s
 df = load_data()
 st.title("Tunisian House Prices Explorer")
 st.caption("Created by Wissem Kooli – Industrial engineering student")
@@ -24,7 +24,7 @@ st.markdown(
     """
     This project explores house prices in Tunisia using a unique dataset scraped from
     [Mubawab.tn](https://www.mubawab.tn/) in November 2025.
-    The data contains over **4,000 residential property listings**.
+    The data contains over **2,800 residential property listings**.
     This hands-on project not only provides a current snapshot of the country’s real estate market,
     but also equips both data enthusiasts and potential buyers with actionable insights.
     """
