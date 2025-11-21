@@ -12,13 +12,6 @@ __pycache__/
 # Jupyter notebook checkpoints
 *.ipynb_checkpoints
 
-# Data files (CSV, Excel, outputs)
-*.csv
-*.xlsx
-results/
-output/
-data/
-
 # Streamlit and Scrapy cache/settings
 .streamlit/
 *.log

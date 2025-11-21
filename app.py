@@ -5,9 +5,12 @@ import streamlit as st
 import plotly.graph_objects as go
 import numpy as np
 
+
+
+
 @st.cache_data
 def load_data():
-    return pd.read_csv('cleaned_data.csv')
+    return pd.read_csv('data/cleaned_data.csv')
 
 df = load_data()
 st.title("Tunisian House Prices Explorer")
