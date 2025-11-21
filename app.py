@@ -160,7 +160,7 @@ st.markdown("<br>", unsafe_allow_html=True)
 
 
 
-# Average Price by Region (Top 20)
+# Average Price by Region
 st.header("Average Price by Region")
 
 price_df = df[['region', 'price']].dropna()
@@ -177,7 +177,7 @@ fig = px.bar(
         'price': 'Average Price (TND)'
     },
     title='All Regions by Average Price',
-    height=600,  # Tall chart for scrolling
+    height=600,
     color='price',
     color_continuous_scale=[[0, 'green'], [0.5, 'yellow'], [1, 'red']]
 )
@@ -193,23 +193,6 @@ fig.update_layout(
 
 # Use container_width to maximize chart width, but let users scroll in the figure if needed
 st.plotly_chart(fig, use_container_width=True, key='region_bar')
-
-# Optionally, make the chart scroll horizontally if there are many regions
-# You can wrap the chart in a Streamlit container for horizontal scroll
-with st.container():
-    st.markdown(
-        '''<div style="overflow-x:scroll; width:100%;">''',
-        unsafe_allow_html=True
-    )
-    st.plotly_chart(fig, use_container_width=True, key='region_bar_scroll')
-    st.markdown('</div>', unsafe_allow_html=True)
-
-
-
-
-
-
-
 
 
 st.markdown("<br>", unsafe_allow_html=True)
