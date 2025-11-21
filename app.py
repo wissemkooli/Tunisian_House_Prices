@@ -161,23 +161,23 @@ st.markdown("<br>", unsafe_allow_html=True)
 
 
 # Average Price by Region (Top 20)
-st.header("Average Price per m² by City")
+st.header("Average Price by Region")
 
 price_df = df[['region', 'price']].dropna()
 
-# Group by city and calculate average, get top 20
-city_avg = price_df.groupby('region')['price'].mean().sort_values(ascending=False).head(20).reset_index()
+# Group by region and calculate average, get all regions (no head())
+region_avg = price_df.groupby('region', as_index=False)['price'].mean().sort_values('price', ascending=False)
 
 fig = px.bar(
-    city_avg,
+    region_avg,
     x='region',
     y='price',
     labels={
-        'city': 'Region',
+        'region': 'Region',
         'price': 'Average Price (TND)'
     },
-    title='Top 20 Regions by Average Price',
-    height=500,
+    title='All Regions by Average Price',
+    height=600,  # Tall chart for scrolling
     color='price',
     color_continuous_scale=[[0, 'green'], [0.5, 'yellow'], [1, 'red']]
 )
@@ -186,10 +186,23 @@ fig.update_layout(
     xaxis_title='Region',
     yaxis_title='Price (TND)',
     yaxis_tickformat=',',
-    xaxis_tickangle=-45
+    xaxis_tickangle=-45,
+    xaxis=dict(tickmode='array', tickvals=region_avg['region']),
+    margin=dict(b=150)  # More space for x axis labels
 )
 
-st.plotly_chart(fig, use_container_width=True,key='9')
+# Use container_width to maximize chart width, but let users scroll in the figure if needed
+st.plotly_chart(fig, use_container_width=True, key='region_bar')
+
+# Optionally, make the chart scroll horizontally if there are many regions
+# You can wrap the chart in a Streamlit container for horizontal scroll
+with st.container():
+    st.markdown(
+        '''<div style="overflow-x:scroll; width:100%;">''',
+        unsafe_allow_html=True
+    )
+    st.plotly_chart(fig, use_container_width=True, key='region_bar_scroll')
+    st.markdown('</div>', unsafe_allow_html=True)
 
 
 
@@ -204,7 +217,7 @@ st.markdown("<br>", unsafe_allow_html=True)
 st.markdown("<br>", unsafe_allow_html=True)
 
 # Average Price per m² by Region (Top 20)
-st.header("Average Price per m² by City")
+st.header("Average Price per m² by Region")
 
 price_per_m2_df = df[['region', 'price', 'total_area']].dropna()
 price_per_m2_df['price_per_m2'] = price_per_m2_df['price'] / price_per_m2_df['total_area']
