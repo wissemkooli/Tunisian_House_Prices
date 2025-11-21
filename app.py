@@ -47,30 +47,30 @@ fig = px.scatter_map(
     hover_name='title',
     hover_data={
         'city': True,
-        'price': ':,.0f TND',  # Format price with thousand separator
+        'price': ':,.0f TND',
         'num_rooms': True,
-        'latitude': False,     # Hide raw coordinates in tooltip
+        'latitude': False,
         'longitude': False
     },
     zoom=6,
     height=600,
-    color_continuous_scale=[[0, 'green'], [0.3, 'yellow'], [1, 'red']],  # Green (cheap) -> Yellow (mid) -> Red (expensive)
+    color_continuous_scale=[[0, 'green'], [0.3, 'yellow'], [1, 'red']],
     title='House Prices Across Tunisia'
 )
 
 fig.update_traces(
-    marker=dict(size=6)  # Uniform dot size
+    marker=dict(size=6)
 )
 
 fig.update_layout(
     map=dict(
-        style='open-street-map',  # Free, no token required
+        style='open-street-map',
         center=dict(lat=map_df['latitude'].mean(), lon=map_df['longitude'].mean())
     ),
     margin={"r":0,"t":40,"l":0,"b":0},
     coloraxis_colorbar=dict(
         title="Price (TND)",
-        tickformat=",",  # Add thousand separator to colorbar
+        tickformat=",",
     )
 )
 
@@ -78,6 +78,11 @@ st.plotly_chart(fig, use_container_width=True,key='4')
 
 st.markdown("<br>", unsafe_allow_html=True)
 st.markdown("<br>", unsafe_allow_html=True)
+
+
+
+
+
 st.header("Price Distribution Analysis")
 
 price_data = df[['price']].dropna()
@@ -152,6 +157,51 @@ st.markdown("<br>", unsafe_allow_html=True)
 st.markdown("<br>", unsafe_allow_html=True)
 st.markdown("<br>", unsafe_allow_html=True)
 
+
+
+
+# Average Price by Region (Top 20)
+st.header("Average Price per m² by City")
+
+price_df = df[['region', 'price']].dropna()
+
+# Group by city and calculate average, get top 20
+city_avg = price_df.groupby('region')['price'].mean().sort_values(ascending=False).head(20).reset_index()
+
+fig = px.bar(
+    city_avg,
+    x='region',
+    y='price',
+    labels={
+        'city': 'Region',
+        'price': 'Average Price (TND)'
+    },
+    title='Top 20 Regions by Average Price',
+    height=500,
+    color='price',
+    color_continuous_scale=[[0, 'green'], [0.5, 'yellow'], [1, 'red']]
+)
+
+fig.update_layout(
+    xaxis_title='Region',
+    yaxis_title='Price (TND)',
+    yaxis_tickformat=',',
+    xaxis_tickangle=-45
+)
+
+st.plotly_chart(fig, use_container_width=True,key='9')
+
+
+
+
+
+
+
+
+
+st.markdown("<br>", unsafe_allow_html=True)
+st.markdown("<br>", unsafe_allow_html=True)
+st.markdown("<br>", unsafe_allow_html=True)
 
 # Average Price per m² by Region (Top 20)
 st.header("Average Price per m² by City")
